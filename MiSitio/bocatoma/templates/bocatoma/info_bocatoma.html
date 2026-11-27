@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>La Bocatoma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'bocatoma/css/info_Bocatoma.css' %}">
+
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="logo-titulo">
+      <img src="{% static 'bocatoma/img/logoo.png' %}" alt="Logo">
+      <h1 id="titulo-menu">Parque Ecoturistico</h1>
+    </div>
+    <ul>
+      <li><a href="{% url 'bocatoma:inicio' %}">Inicio</a></li>
+      <li><a href="{% url 'bocatoma:actividades' %}">Actividades</a></li>
+      <li><a href="{% url 'bocatoma:restaurantes' %}">Restaurantes</a></li>
+      <li><a href="{% url 'bocatoma:cabanas' %}">Hospedaje</a></li>
+      <li><a href="{% url 'bocatoma:naturaleza' %}">Flora y Fauna</a></li>
+      <li><a href="{% url 'bocatoma:mi_entorno_limpio' %}">Entorno Limpio</a></li>
+      <li><a href="{% url 'bocatoma:resenas' %}">Reseñas</a></li>
+      <li><a href="{% url 'bocatoma:contacto' %}">Contacto</a></li>
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'bocatoma:mis_reservaciones' %}">Mis Reservaciones</a></li>
+      <li><a href="{% url 'bocatoma:logout' %}">Salir ({{ user.username }})</a></li>
+      {% else %}
+      <li><a href="{% url 'bocatoma:login' %}">Iniciar Sesión</a></li>
+      <li><a href="{% url 'bocatoma:registro' %}">Registro</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  {% if messages %}
+  <div style="max-width: 900px; margin: 15px auto; padding: 0 20px;">
+    {% for message in messages %}
+    <div
+      style="padding: 12px 18px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; {% if message.tags == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% elif message.tags == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <section class="hero">
+    <h2>Un Paraíso Natural</h2>
+  </section>
+
+  <section class="info">
+
+    <div class="texto">
+      <h2>LA BOCATOMA</h2>
+      <p>
+        Disfruta de este paraíso natural en Gómez Farías, Tamaulipas.
+        Un lugar rodeado de naturaleza, ríos cristalinos y tranquilidad.
+      </p>
+
+      <p>
+        Aquí puedes realizar actividades como kayak, senderismo,
+        paseos en lancha y disfrutar de un día inolvidable.
+      </p>
+    </div>
+
+    <div class="carrusel">
+      <img id="imgCarrusel" src="{% static 'bocatoma/img/multi_acti.jpg' %}">
+
+      <button class="prev">&#10094;</button>
+      <button class="next">&#10095;</button>
+    </div>
+
+  </section>
+
+  <section class="info">
+
+    <div class="texto">
+      <h2>La Poza Azul</h2>
+      <p>
+        La Poza Azul es uno de los atractivos más impresionantes de La Bocatoma,
+        famosa por sus aguas cristalinas de color turquesa y su entorno natural,
+        ubicada a 500 metros de La Bocatoma.
+      </p>
+
+      <p>
+        Es ideal para nadar, relajarse y disfrutar de un ambiente tranquilo
+        rodeado de naturaleza.
+      </p>
+    </div>
+
+
+    <div class="carrusel">
+      <img id="imgCarruselPoza" src="{% static 'bocatoma/img/poza2.jpg' %}">
+
+      <button class="prev-poza">&#10094;</button>
+      <button class="next-poza">&#10095;</button>
+    </div>
+
+  </section>
+
+
+  <section class="final">
+    <h2>¡Te Esperamos!</h2>
+    <p>
+      Ven y disfruta de la belleza natural de La Bocatoma y la Poza.
+      Un lugar perfecto para relajarte, convivir con tu familia y conectar con la naturaleza.
+    </p>
+    <h3>¡Visitanos para vivir una experiencia inolvidable!</h3>
+  </section>
+
+  <script src="{% static 'bocatoma/js/Script_infoBocatoma.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Contacto - Parque Ecoturístico La Bocatoma</title>
+  <link rel="stylesheet" href="{% static 'bocatoma/css/Resenas.css' %}">
+  <style>
+    .formulario-contacto {
+      background: rgba(255, 255, 255, 0.96);
+      padding: 35px 40px;
+      border-radius: 15px;
+      width: 480px;
+      max-width: 95%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      margin: 40px auto;
+    }
+    .formulario-contacto h2 {
+      text-align: center;
+      margin-bottom: 8px;
+      color: #1b5f3a;
+    }
+    .formulario-contacto p.subtitulo {
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 25px;
+    }
+    .campo-grupo {
+      margin-bottom: 16px;
+    }
+    .campo-grupo label {
+      display: block;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    .campo-grupo input,
+    .campo-grupo textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+      font-family: inherit;
+    }
+    .campo-grupo textarea {
+      height: 110px;
+      resize: vertical;
+    }
+    .btn-submit {
+      width: 100%;
+      background-color: #1b5f3a;
+      color: white;
+      font-weight: bold;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+      transition: background 0.3s;
+    }
+    .btn-submit:hover {
+      background-color: #14492c;
+    }
+    .datos-contacto-rapido {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+      font-size: 13px;
+      color: #555;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo-titulo">
+    <img src="{% static 'bocatoma/img/logoo.png' %}" alt="Logo">
+    <h1 id="titulo-menu">Parque Ecoturistico</h1>
+  </div>
+  <ul>
+    <li><a href="{% url 'bocatoma:inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'bocatoma:actividades' %}">Actividades</a></li>
+    <li><a href="{% url 'bocatoma:cabanas' %}">Hospedaje</a></li>
+    <li><a href="{% url 'bocatoma:resenas' %}">Reseñas</a></li>
+    <li><a href="{% url 'bocatoma:contacto' %}">Contacto</a></li>
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'bocatoma:mis_reservaciones' %}">Mis Reservaciones</a></li>
+      <li><a href="{% url 'bocatoma:logout' %}">Salir ({{ user.username }})</a></li>
+    {% else %}
+      <li><a href="{% url 'bocatoma:login' %}">Iniciar Sesión</a></li>
+      <li><a href="{% url 'bocatoma:registro' %}">Registro</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% if messages %}
+<div style="max-width: 900px; margin: 15px auto; padding: 0 20px;">
+  {% for message in messages %}
+  <div style="padding: 12px 18px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; {% if message.tags == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% elif message.tags == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<section class="contenedor-form" style="min-height: 80vh; padding: 20px;">
+  <div class="formulario-contacto">
+    <h2>Contáctanos 🌿</h2>
+    <p class="subtitulo">¿Tienes dudas sobre cabañas, actividades o cómo llegar? Escríbenos.</p>
+
+    {% if form.errors %}
+    <div style="background-color: #f8d7da; color: #721c24; padding: 10px 14px; border-radius: 8px; margin-bottom: 15px; font-size: 13px;">
+      {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+          <p>• {{ error }}</p>
+        {% endfor %}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post" autocomplete="off">
+      {% csrf_token %}
+
+      <div class="campo-grupo">
+        <label for="id_nombre">Tu nombre completo:</label>
+        {{ form.nombre }}
+      </div>
+
+      <div class="campo-grupo">
+        <label for="id_correo">Tu correo electrónico:</label>
+        {{ form.correo }}
+      </div>
+
+      <div class="campo-grupo">
+        <label for="id_mensaje">Tu mensaje o consulta:</label>
+        {{ form.mensaje }}
+      </div>
+
+      <button type="submit" class="btn-submit">Enviar Mensaje 🌿</button>
+
+      <div class="datos-contacto-rapido">
+        📍 Gómez Farías, Tamaulipas · 📞 WhatsApp: 834 274 4432
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Parque Ecoturistico La Bocatoma</p>
+</footer>
+
+</body>
+</html>

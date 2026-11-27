@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reservación Confirmada - Parque Ecoturístico</title>
+  <link rel="stylesheet" href="{% static 'bocatoma/css/Cabanas.css' %}">
+  <style>
+    body {
+      background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+        url("{% static 'bocatoma/img/bocatoma.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+
+    .seccion-confirmacion {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    .icono-exito {
+      font-size: 55px;
+      margin-bottom: 10px;
+    }
+    .seccion-confirmacion h1 {
+      color: #1b5f3a;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    .folio-badge {
+      display: inline-block;
+      background-color: #1b5f3a;
+      color: #ffffff;
+      font-size: 22px;
+      font-weight: bold;
+      padding: 8px 24px;
+      border-radius: 30px;
+      margin: 15px 0 20px 0;
+      letter-spacing: 1px;
+    }
+    .caja-detalles {
+      background: #f7faf8;
+      border: 1px solid #d7e8de;
+      border-radius: 10px;
+      padding: 20px 25px;
+      text-align: left;
+      margin: 20px 0 30px 0;
+    }
+    .caja-detalles table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+    .caja-detalles td {
+      padding: 8px 0;
+      border-bottom: 1px dashed #e0ede5;
+    }
+    .caja-detalles tr:last-child td {
+      border-bottom: none;
+    }
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background-color: #25D366;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      transition: background 0.3s;
+      margin: 10px 5px;
+    }
+    .btn-wa:hover {
+      background-color: #1da851;
+    }
+    .btn-panel {
+      display: inline-block;
+      background-color: #1b5f3a;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 14px 24px;
+      border-radius: 10px;
+      margin: 10px 5px;
+    }
+    .btn-panel:hover {
+      background-color: #14492c;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo-titulo">
+    <img src="{% static 'bocatoma/img/logoo.png' %}" alt="Logo">
+    <h1 id="titulo-menu">Parque Ecoturistico</h1>
+  </div>
+  <ul>
+    <li><a href="{% url 'bocatoma:inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'bocatoma:cabanas' %}">Hospedaje</a></li>
+    <li><a href="{% url 'bocatoma:mis_reservaciones' %}">Mis Reservaciones</a></li>
+    <li><a href="{% url 'bocatoma:resenas' %}">Reseñas</a></li>
+    <li><a href="{% url 'bocatoma:logout' %}">Salir ({{ user.username }})</a></li>
+  </ul>
+</nav>
+
+{% if messages %}
+<div style="max-width: 700px; margin: 15px auto; padding: 0 20px;">
+  {% for message in messages %}
+  <div style="padding: 12px 18px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; {% if message.tags == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% elif message.tags == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="seccion-confirmacion">
+  <div class="icono-exito">🌿✨🏕️</div>
+  <h1>¡Tu Reservación está Confirmada!</h1>
+  <p style="color: #555;">Hemos procesado tu pago simulado y guardado tu reservación en la base de datos.</p>
+
+  <div class="folio-badge">
+    Folio: {{ reservacion.folio }}
+  </div>
+
+  <div class="caja-detalles">
+    <table>
+      <tr>
+        <td><strong>Hospedaje:</strong></td>
+        <td>{{ reservacion.cabana.nombre }}</td>
+      </tr>
+      <tr>
+        <td><strong>Titular:</strong></td>
+        <td>{{ reservacion.usuario.get_full_name|default:reservacion.usuario.username }}</td>
+      </tr>
+      <tr>
+        <td><strong>Llegada (Check-in):</strong></td>
+        <td>{{ reservacion.fecha_entrada|date:"d \d\e F \d\e Y" }}</td>
+      </tr>
+      <tr>
+        <td><strong>Salida (Check-out):</strong></td>
+        <td>{{ reservacion.fecha_salida|date:"d \d\e F \d\e Y" }} ({{ reservacion.noches }} noche{{ reservacion.noches|pluralize }})</td>
+      </tr>
+      <tr>
+        <td><strong>Personas:</strong></td>
+        <td>{{ reservacion.personas }}</td>
+      </tr>
+      <tr>
+        <td><strong>Medio preferido de aviso:</strong></td>
+        <td>{{ reservacion.get_medio_confirmacion_display }}</td>
+      </tr>
+      {% if reservacion.actividades.all %}
+      <tr>
+        <td><strong>Actividades adicionales:</strong></td>
+        <td>
+          {% for a in reservacion.actividades.all %}
+            {{ a.nombre }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </td>
+      </tr>
+      {% endif %}
+      <tr>
+        <td><strong>Total pagado:</strong></td>
+        <td><strong style="color: #1b5f3a; font-size: 17px;">${{ reservacion.total }} MXN</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Estado:</strong></td>
+        <td><span style="background: #d4edda; color: #155724; padding: 3px 8px; border-radius: 4px; font-weight: bold;">{{ reservacion.get_estado_display }}</span></td>
+      </tr>
+    </table>
+  </div>
+
+  {% if reservacion.medio_confirmacion == 'whatsapp' %}
+  <div style="background: #eafaf1; border: 2px solid #25D366; border-radius: 12px; padding: 22px; margin: 25px 0; text-align: center;">
+    <h3 style="color: #128C7E; margin-bottom: 8px; font-size: 20px;">📲 Confirmación por WhatsApp</h3>
+    <p style="color: #333; font-size: 15px; margin-bottom: 16px;">
+      Elegiste recibir los detalles de tu reservación por WhatsApp.
+      {% if telefono_usuario %}
+        Tu número registrado es: <strong>{{ telefono_usuario }}</strong>.
+      {% endif %}
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+      {% if url_whatsapp_usuario %}
+      <a href="{{ url_whatsapp_usuario }}" target="_blank" class="btn-wa" style="font-size: 15px; padding: 12px 22px;">
+        <img src="https://cdn-icons-png.flaticon.com/24/733/733585.png" style="width:20px; vertical-align:middle;">
+        📲 Enviar Comprobante a mi WhatsApp
+      </a>
+      {% endif %}
+      <a href="{{ url_whatsapp_compartir }}" target="_blank" class="btn-wa" style="background-color: #128C7E; font-size: 15px; padding: 12px 22px;">
+        <img src="https://cdn-icons-png.flaticon.com/24/733/733585.png" style="width:20px; vertical-align:middle;">
+        💬 Abrir Comprobante en WhatsApp
+      </a>
+      <a href="{{ url_whatsapp_parque }}" target="_blank" class="btn-wa" style="background-color: #075E54; font-size: 15px; padding: 12px 22px;">
+        <img src="https://cdn-icons-png.flaticon.com/24/733/733585.png" style="width:20px; vertical-align:middle;">
+        🏞️ Notificar al Parque
+      </a>
+    </div>
+    <small style="color: #555; display: block; margin-top: 14px;">
+      💡 También enviamos una copia de respaldo a tu correo: <strong>{{ reservacion.usuario.email }}</strong>.
+    </small>
+  </div>
+  {% else %}
+  <div style="background: #f0f7ff; border: 1px solid #b8daff; border-radius: 10px; padding: 20px; margin: 20px 0; text-align: center;">
+    <h3 style="color: #0056b3; margin-bottom: 8px;">✉️ Confirmación enviada a tu Correo</h3>
+    <p style="color: #333; font-size: 15px; margin-bottom: 14px;">
+      Enviamos los detalles de tu reservación a: <strong>{{ reservacion.usuario.email }}</strong>.
+    </p>
+    <a href="{{ url_whatsapp_parque }}" target="_blank" class="btn-wa" style="font-size: 14px; padding: 10px 20px;">
+      <img src="https://cdn-icons-png.flaticon.com/24/733/733585.png" style="width:18px; vertical-align:middle;">
+      Notificar por WhatsApp al Parque
+    </a>
+  </div>
+  {% endif %}
+
+  <div style="margin-top: 25px;">
+    <a href="{% url 'bocatoma:mis_reservaciones' %}" class="btn-panel">
+      Ver Mis Reservaciones
+    </a>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Parque Ecoturistico La Bocatoma</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Actividades - Parque Ecoturistico</title>
+  <link rel="stylesheet" href="{% static 'bocatoma/css/actividades.css' %}">
+</head>
+<body>
+
+<nav class="navbar">
+ <div class="logo-titulo">
+    <img src="{% static 'bocatoma/img/logoo.png' %}" alt="Logo">
+    <h1 id="titulo-menu">Parque Ecoturistico</h1>
+  </div>
+  <ul>
+    <li><a href="{% url 'bocatoma:inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'bocatoma:actividades' %}">Actividades</a></li>
+    <li><a href="{% url 'bocatoma:restaurantes' %}">Restaurantes</a></li>
+    <li><a href="{% url 'bocatoma:cabanas' %}">Hospedaje</a></li>
+    <li><a href="{% url 'bocatoma:naturaleza' %}">Flora y Fauna</a></li>
+    <li><a href="{% url 'bocatoma:mi_entorno_limpio' %}">Entorno Limpio</a></li>
+    <li><a href="{% url 'bocatoma:resenas' %}">Reseñas</a></li>
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'bocatoma:mis_reservaciones' %}">Mis Reservaciones</a></li>
+      <li><a href="{% url 'bocatoma:logout' %}">Salir ({{ user.username }})</a></li>
+    {% else %}
+      <li><a href="{% url 'bocatoma:login' %}">Iniciar Sesión</a></li>
+      <li><a href="{% url 'bocatoma:registro' %}">Registro</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% if messages %}
+<div style="max-width: 900px; margin: 15px auto; padding: 0 20px;">
+  {% for message in messages %}
+  <div style="padding: 12px 18px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; {% if message.tags == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% elif message.tags == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<section class="intro">
+  <h1>🍃Actividades</h1>
+  <p class="Activi-p">
+    En la Bocatoma te la pasarás increíble porque encontrarás distintas 
+    actividades que podrás realizar, entre ellas:
+  </p>
+</section>
+
+<section class="galeria">
+  {% for act in actividades %}
+  <div class="card">
+    {% if act.foto %}
+      {% if 'http' in act.foto %}
+        <img src="{{ act.foto }}" alt="{{ act.nombre }}">
+      {% else %}
+        <img src="{% static act.foto %}" alt="{{ act.nombre }}">
+      {% endif %}
+    {% else %}
+      <img src="{% static 'bocatoma/img/multi_acti.jpg' %}" alt="{{ act.nombre }}">
+    {% endif %}
+    <h3>{{ act.nombre }}</h3>
+    <p style="font-weight: bold; color: #1b5f3a; margin-top: 5px;">
+      Precio: {{ act.precio_texto }}{% if act.duracion %} ({{ act.duracion }}){% endif %}
+    </p>
+  </div>
+  {% empty %}
+  <p style="text-align: center; grid-column: 1 / -1;">No hay actividades registradas por el momento.</p>
+  {% endfor %}
+</section>
+
+<section class="costos">
+  <h2>Costos de Algunas Actividades</h2>
+  <ul>
+    {% for act in actividades %}
+      <li>🍃 {{ act.nombre }}: <strong>{{ act.precio_texto }}</strong>{% if act.duracion %} ({{ act.duracion }}){% endif %}</li>
+    {% empty %}
+      <li>No hay costos registrados por el momento.</li>
+    {% endfor %}
+    <li><strong>🍃PRECIOS SUJETOS A CAMBIOS SIN PREVIO AVISO🍃</strong></li>
+  </ul>
+</section>
+
+<footer>
+  <p>© 2026 Parque Ecoturistico La Bocatoma</p>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <span class="modal-cerrar" id="modalCerrar">✕</span>
+  <img id="modalImg" src="" alt="">
+</div>
+
+<script src="{% static 'bocatoma/js/Script_Actividades.js' %}"></script>
+</body>
+</html>

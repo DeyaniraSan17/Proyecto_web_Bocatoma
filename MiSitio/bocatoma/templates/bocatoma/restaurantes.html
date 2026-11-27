@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Restaurantes</title>
+  <link rel="stylesheet" href="{% static 'bocatoma/css/Restaurantes.css' %}">
+</head>
+<body>
+
+<nav class="navbar">
+<div class="logo-titulo">
+    <img src="{% static 'bocatoma/img/logoo.png' %}" alt="Logo">
+    <h1 id="titulo-menu">Parque Ecoturistico</h1>
+  </div>  <ul>
+    <li><a href="{% url 'bocatoma:inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'bocatoma:actividades' %}">Actividades</a></li>
+    <li><a href="{% url 'bocatoma:cabanas' %}">Hospedaje</a></li>
+    <li><a href="{% url 'bocatoma:naturaleza' %}">Flora y Fauna</a></li>
+    <li><a href="{% url 'bocatoma:mi_entorno_limpio' %}">Entorno Limpio</a></li>
+    <li><a href="{% url 'bocatoma:resenas' %}">Reseñas</a></li>
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'bocatoma:mis_reservaciones' %}">Mis Reservaciones</a></li>
+      <li><a href="{% url 'bocatoma:logout' %}">Salir ({{ user.username }})</a></li>
+    {% else %}
+      <li><a href="{% url 'bocatoma:login' %}">Iniciar Sesión</a></li>
+      <li><a href="{% url 'bocatoma:registro' %}">Registro</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+    <section class="intro">
+  <h2>🍽️ Restaurantes</h2>
+  <p>Disfruta de deliciosos platillos típicos de la región rodeado de naturaleza.
+  Nuestros restaurantes te ofrecen una experiencia gastronómica única a orillas del río.</p>
+</section>
+<section class="contenedor">
+
+  <div class="restaurante">
+    
+    <div class="carrusel">
+      <div class="imagenes">
+        <img src="{% static 'bocatoma/img/R_B1.png' %}">
+        <img src="{% static 'bocatoma/img/platillo.jpg' %}">
+        <img src="{% static 'bocatoma/img/platillo3_b1.jpg' %}">
+        <img src="{% static 'bocatoma/img/platillo2_b1.jpg' %}">
+
+      </div>
+
+      <button class="prev">&#10094;</button>
+      <button class="next">&#10095;</button>
+    </div>
+
+    <div class="info">
+      <h2>1. La Bocatoma 1 de Pablo Rdz</h2>
+      <p>🍴Marisquería</p>
+      <p>📞 831 105 7791</p>
+      <p>🕜Horario: Lun–Dom: 9:00am–5:00pm</p>
+
+      <div class="calificacion">
+    <span class="estrellas">★★★★☆</span>
+    <span class="numero">4.2</span>
+    <a href="https://maps.app.goo.gl/SiePVS3xoCHucJNm7" target="_blank" class="btn-maps">
+      <img src="https://cdn-icons-png.flaticon.com/24/2991/2991148.png">
+      <span>Ver en Maps</span>
+    </a>
+  </div>
+
+
+      <div class="botones">
+
+      <a href="https://wa.me/5218342744432?text=Hola,%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20el%20restaurante%20La%20Bocatoma%201" target="_blank" >
+        <button class="btn-whatsapp"><img src="https://cdn-icons-png.flaticon.com/24/733/733585.png" style="width:18px; vertical-align:middle; margin-right:6px;">
+      WhatsApp
+    </button></a>
+
+      <a href="https://www.facebook.com/people/La-Bocatoma-1/100064023973769/#" target="_blank">
+        <button class="btn-facebook">      
+          <img src="https://cdn-icons-png.flaticon.com/24/733/733547.png" style="width:18px; vertical-align:middle; margin-right:6px;">
+          Facebook</button></a></div>
+         </div>
+
+  </div>
+
+  <div class="restaurante">
+    
+    <div class="carrusel">
+      <div class="imagenes">
+        <img src="{% static 'bocatoma/img/logo_de_restaurante.jpg' %}">
+        <img src="{% static 'bocatoma/img/bocatoma2.jpg' %}">
+        <img src="{% static 'bocatoma/img/platillo_b2.jpg' %}">
+        <img src="{% static 'bocatoma/img/Platillo_boca_2.jpg' %}">
+        <img src="{% static 'bocatoma/img/multi_platillos.jpg' %}">
+
+      </div>
+
+      <button class="prev">&#10094;</button>
+      <button class="next">&#10095;</button>
+    </div>
+
+    <div class="info">
+      <h2>2. La Bocatoma 2</h2>
+      <p>🍴Bar y Marisquería</p>
+      <p>📞831 114 4562</p>
+      <p>🕜Horario: Lun–Dom: 10:00am–6:00pm</p>
+
+      <div class="calificacion">
+      <span class="estrellas">★★★★☆</span>
+      <span class="numero">4.4</span>
+     <a href="https://maps.app.goo.gl/dgjYgwutXN6SMZ3i9" target="_blank" class="btn-maps">
+      <img src="https://cdn-icons-png.flaticon.com/24/2991/2991148.png">
+      <span>Ver en Maps</span>
+     </a>
+     </div>
+
+    <div class="botones">
+
+      <a href="https://wa.me/5218342744432?text=Hola,%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20el%20restaurante%20La%20Bocatoma%202" target="_blank" >
+        <button class="btn-whatsapp">      
+          <img src="https://cdn-icons-png.flaticon.com/24/733/733585.png" style="width:18px; vertical-align:middle; margin-right:6px;">
+          WhatsApp </button></a>
+
+      <a href="https://www.facebook.com/p/La-Bocatoma-2-100057275926420/" target="_blank">
+        <button  class="btn-facebook">
+          <img src="https://cdn-icons-png.flaticon.com/24/733/733547.png" style="width:18px; vertical-align:middle; margin-right:6px;">
+          Facebook</button>
+      </a></div>
+      
+    </div>
+
+  </div>
+
+  <div class="restaurante">
+    
+    <div class="carrusel">
+      <div class="imagenes">
+        <img src="{% static 'bocatoma/img/logo_LBPA.jpg' %}">
+        <img src="{% static 'bocatoma/img/multi_platillos_LBPA.jpg' %}">
+         <img src="{% static 'bocatoma/img/bebida_y_comida_LBPA.jpg' %}">
+        <img src="{% static 'bocatoma/img/platillo_LBPA.jpg' %}">
+        <img src="{% static 'bocatoma/img/platillo4_LBPA.jpg' %}">
+        <img src="{% static 'bocatoma/img/langostas_LBPA.jpg' %}">
+      </div>
+
+      <button class="prev">&#10094;</button>
+      <button class="next">&#10095;</button>
+    </div>
+
+    <div class="info">
+      <h2>3. La Bocatoma Palapa Azul</h2>
+      <p>🍴Marisquería</p>
+      <p>📞 565 442 7718</p>
+      <p>🕜Horario: Lun–Dom: 9:30am–6:30pm</p>
+
+      <div class="calificacion">
+      <span class="estrellas">★★★★☆</span>
+      <span class="numero">4.4</span>
+      <a href="https://maps.app.goo.gl/8qEfcXdLbMvr5oXZ8" target="_blank" class="btn-maps">
+     <img src="https://cdn-icons-png.flaticon.com/24/2991/2991148.png">
+     <span>Ver en Maps</span>
+     </a>
+     </div>
+
+        <div class="botones">
+
+       <a href="https://wa.me/5218342744432?text=Hola,%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20el%20restaurante%20La%20Bocatoma%20Palapa%20Azul" target="_blank" >
+        <button class="btn-whatsapp">
+        <img src="https://cdn-icons-png.flaticon.com/24/733/733585.png" style="width:18px; vertical-align:middle; margin-right:6px;">
+          WhatsApp </button></a>
+      <a href="https://www.facebook.com/Bocatomaa/" target="_blank">
+        <button class="btn-facebook">
+         <img src="https://cdn-icons-png.flaticon.com/24/733/733547.png" style="width:18px; vertical-align:middle; margin-right:6px;">
+          Facebook</button></a></div>
+    </div>
+
+  </div>
+
+</section>
+
+<footer>
+  <p>© 2026 Parque Ecoturistico La Bocatoma</p>
+</footer>
+
+<script src="{% static 'bocatoma/js/Script_restaurantes.js' %}"></script>
+</body>
+</html>

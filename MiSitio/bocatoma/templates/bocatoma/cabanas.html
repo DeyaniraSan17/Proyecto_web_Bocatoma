@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cabañas</title>
+  <link rel="stylesheet" href="{% static 'bocatoma/css/Cabanas.css' %}">
+</head>
+<body>
+
+<nav class="navbar">
+<div class="logo-titulo">
+    <img src="{% static 'bocatoma/img/logoo.png' %}" alt="Logo">
+    <h1 id="titulo-menu">Parque Ecoturistico</h1>
+  </div>
+    <ul>
+    <li><a href="{% url 'bocatoma:inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'bocatoma:actividades' %}">Actividades</a></li>
+    <li><a href="{% url 'bocatoma:restaurantes' %}">Restaurantes</a></li>
+    <li><a href="{% url 'bocatoma:naturaleza' %}">Flora y Fauna</a></li>
+    <li><a href="{% url 'bocatoma:mi_entorno_limpio' %}">Entorno Limpio</a></li>
+    <li><a href="{% url 'bocatoma:resenas' %}">Reseñas</a></li>
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'bocatoma:mis_reservaciones' %}">Mis Reservaciones</a></li>
+      <li><a href="{% url 'bocatoma:logout' %}">Salir ({{ user.username }})</a></li>
+    {% else %}
+      <li><a href="{% url 'bocatoma:login' %}">Iniciar Sesión</a></li>
+      <li><a href="{% url 'bocatoma:registro' %}">Registro</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+<section class="intro">
+  <h2>🏕️ Hospedaje</h2>
+  <p>Descansa en un entorno natural único. Nuestra cabañas y hotel te ofrecen 
+  la comodidad que necesitas para disfrutar al máximo tu estancia en La Bocatoma.</p>
+</section>
+
+<section class="contenedor">
+
+  <div class="item">
+
+    <div class="carrusel">
+      <div class="imagenes">
+        <img src="{% static 'bocatoma/img/Logo_Cabana_Pedregal.jpg' %}">
+        <img src="{% static 'bocatoma/img/Cabana_el_pedregall.jpg' %}">
+        <img src="{% static 'bocatoma/img/cuarto_CP.jpg' %}">
+        <img src="{% static 'bocatoma/img/alberca_CP.jpg' %}">
+        <img src="{% static 'bocatoma/img/Mesas_cp.jpg' %}">
+        <img src="{% static 'bocatoma/img/entrada_cp.jpg' %}">
+        <img src="{% static 'bocatoma/img/puente_cp.jpg' %}">
+        <img src="{% static 'bocatoma/img/Asador_cp.jpg' %}">
+        <img src="{% static 'bocatoma/img/kayak_cp.jpg' %}">
+      </div>
+
+      <button class="prev">&#10094;</button>
+      <button class="next">&#10095;</button>
+    </div>
+
+    <div class="info">
+      <h2>1. Cabañas El Pedregal</h2>
+
+      <p><strong>Cabaña:</strong> Individual, Doble o Familiar</p>
+
+      <p><strong>Servicios:</strong></p>
+      <ul>
+      <li>Alberca</li>
+      <li>Mesa</li> 
+      <li>Asador</li> 
+      <li>Sky</li> 
+      <li>Netflix</li>
+      <li>WiFi</li>
+      </ul>
+      <p>📞 812 018 4777</p>
+
+      <div class="calificacion">
+  <span class="estrellas">★★★★☆</span>
+  <span class="numero">4.2</span>
+  <a href="https://maps.app.goo.gl/sLHJgvWwUmW5dnC1A" target="_blank" class="btn-maps">
+    <img src="https://cdn-icons-png.flaticon.com/24/2991/2991148.png">
+    <span>Ver en Maps</span>
+  </a>
+</div>
+
+      <div class="botones">
+      <a href="{% url 'bocatoma:reservar' %}?cabana=1">
+        <button style="background-color: #1b5f3a; color: white; border: none; border-radius: 8px; padding: 10px 16px; cursor: pointer; font-weight: bold;">
+          📅 Reservar en Línea
+        </button>
+      </a>
+      <a href="https://wa.me/5218342744432?text=Hola,%20quisiera%20pedir%20informaci%C3%B3n%20para%20reservar%20Caba%C3%B1as%20El%20Pedregal" target="_blank" >
+        <button class="btn-whatsapp">
+        <img src="https://cdn-icons-png.flaticon.com/24/733/733585.png" style="width:18px; vertical-align:middle; margin-right:6px;">
+          WhatsApp </button></a>
+      <a href="https://www.facebook.com/p/Caba%C3%B1as-el-Pedregal-100066437121604/" target="_blank">
+      <button class="btn-facebook">
+      <img src="https://cdn-icons-png.flaticon.com/24/733/733547.png" style="width:18px; vertical-align:middle; margin-right:6px;">
+        Facebook</button></a></div>
+    </div>
+
+  </div>
+
+  <div class="item">
+
+    <div class="carrusel">
+      <div class="imagenes">
+        <img src="{% static 'bocatoma/img/Hotel_barco.jpg' %}">
+        <img src="{% static 'bocatoma/img/Cuarto_HB.jpg' %}">
+        <img src="{% static 'bocatoma/img/Palapa.jpg' %}">
+        <img src="{% static 'bocatoma/img/alberca_hb.jpg' %}">
+        <img src="{% static 'bocatoma/img/cuarto_HotelB.jpg' %}">
+        <img src="{% static 'bocatoma/img/Hotel_b2.jpg' %}">
+      </div>
+
+      <button class="prev">&#10094;</button>
+      <button class="next">&#10095;</button>
+    </div>
+
+    <div class="info">
+      <h2>2. Hotel "El Barco"</h2>
+
+      <p><strong>Habitación:</strong> Individual, Doble o Familiar</p>
+
+      <p><strong>Servicios:</strong></p>
+      <ul>
+        <li>Alberca</li>
+        <li>Mesa</li>
+        <li>Asador</li>
+        <li>Palapa</li>
+        <li>WiFi</li>
+        <li>Clima</li>
+      </ul>
+      <p>📞 831 114 4562</p>
+
+      <div class="calificacion">
+     <span class="estrellas">★★★★☆</span>
+      <span class="numero">4.4</span>
+     <a href="https://maps.app.goo.gl/dgjYgwutXN6SMZ3i9" target="_blank" class="btn-maps">
+      <img src="https://cdn-icons-png.flaticon.com/24/2991/2991148.png">
+      <span>Ver en Maps</span>
+      </a>
+      </div>
+
+       <div class="botones">
+      <a href="{% url 'bocatoma:reservar' %}?cabana=2">
+        <button style="background-color: #1b5f3a; color: white; border: none; border-radius: 8px; padding: 10px 16px; cursor: pointer; font-weight: bold;">
+          📅 Reservar en Línea
+        </button>
+      </a>
+      <a href="https://wa.me/5218342744432?text=Hola,%20quisiera%20pedir%20informaci%C3%B3n%20para%20reservar%20Hotel%20El%20Barco" target="_blank" >
+        <button class="btn-whatsapp">
+        <img src="https://cdn-icons-png.flaticon.com/24/733/733585.png" style="width:18px; vertical-align:middle; margin-right:6px;">
+          WhatsApp </button></a>
+      <a href="https://www.facebook.com/100057275926420/posts/-hotel-el-barco-te-espera-en-la-bocatoma-2rel%C3%A1jate-en-nuestras-c%C3%B3modas-habitacio/1271124984806687/" target="_blank">
+       <button class="btn-facebook">
+        <img src="https://cdn-icons-png.flaticon.com/24/733/733547.png" style="width:18px; vertical-align:middle; margin-right:6px;">
+       Facebook</button>
+</a>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<footer>
+  <p>© 2026 Parque Ecoturistico La Bocatoma</p>
+</footer>
+
+<div id="modalOverlay">
+  <span id="modalCerrar">✕</span>
+  <button id="modalPrev">&#10094;</button>
+  <img id="modalImg" src="" alt="">
+  <button id="modalNext">&#10095;</button>
+</div>
+
+<script src="{% static 'bocatoma/js/Script_Cabanas.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mis Reservaciones - Parque Ecoturístico La Bocatoma</title>
+  <link rel="stylesheet" href="{% static 'bocatoma/css/Cabanas.css' %}">
+  <style>
+    body {
+      background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+        url("{% static 'bocatoma/img/bocatoma.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+
+    .seccion-mis-res {
+      max-width: 1050px;
+      margin: 35px auto 60px auto;
+      padding: 0 20px;
+    }
+
+    /* Tarjeta superior de bienvenida del usuario */
+    .perfil-banner {
+      background: linear-gradient(135deg, #1b5f3a 0%, #14492c 100%);
+      color: white;
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 25px rgba(27, 95, 58, 0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .perfil-info h1 {
+      font-size: 26px;
+      margin: 0 0 6px 0;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .perfil-info p {
+      margin: 3px 0;
+      font-size: 14px;
+      color: #d7ede1;
+    }
+    .perfil-acciones {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-top {
+      padding: 11px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .btn-top-reservar {
+      background-color: #ffffff;
+      color: #1b5f3a;
+    }
+    .btn-top-reservar:hover {
+      background-color: #f0f7f3;
+      transform: translateY(-2px);
+    }
+    .btn-top-resena {
+      background-color: #f5a623;
+      color: #ffffff;
+    }
+    .btn-top-resena:hover {
+      background-color: #e09415;
+      transform: translateY(-2px);
+    }
+
+    .metricas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+    .metrica-card {
+      background: white;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-left: 5px solid #1b5f3a;
+    }
+    .metrica-card.total { border-left-color: #1b5f3a; }
+    .metrica-card.confirmada { border-left-color: #28a745; }
+    .metrica-card.pendiente { border-left-color: #ffc107; }
+    .metrica-card.recibida { border-left-color: #17a2b8; }
+    .metrica-icono {
+      font-size: 30px;
+    }
+    .metrica-datos .valor {
+      font-size: 24px;
+      font-weight: bold;
+      color: #222;
+      line-height: 1.1;
+    }
+    .metrica-datos .etiqueta {
+      font-size: 13px;
+      color: #666;
+      margin-top: 3px;
+    }
+
+    /* Tarjetas de Reservación */
+    .titulo-seccion-res {
+      color: white;
+      font-size: 22px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tarjeta-reserva {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+      margin-bottom: 24px;
+      overflow: hidden;
+      border: 1px solid #e7eee9;
+      transition: box-shadow 0.25s ease;
+    }
+    .tarjeta-reserva:hover {
+      box-shadow: 0 8px 25px rgba(0,0,0,0.11);
+    }
+
+    .tarjeta-header {
+      padding: 14px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: #f8faf9;
+      border-bottom: 1px solid #eef3f0;
+    }
+    .folio-titulo {
+      font-size: 17px;
+      font-weight: bold;
+      color: #1b5f3a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .fecha-creacion {
+      font-size: 12px;
+      color: #777;
+      margin-left: 5px;
+    }
+
+    /* Badges de estado */
+    .badge-estado {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge-confirmada { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .badge-pendiente { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+    .badge-recibida { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+    .badge-cancelada { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+    /* Cuerpo de la reservación */
+    .tarjeta-cuerpo {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 800px) {
+      .tarjeta-cuerpo {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+    }
+    .bloque-info h3 {
+      font-size: 17px;
+      color: #1b5f3a;
+      margin-bottom: 6px;
+    }
+    .bloque-info p {
+      margin: 4px 0;
+      font-size: 14px;
+      color: #444;
+    }
+    .bloque-info strong {
+      color: #222;
+    }
+    .precio-destacado {
+      font-size: 22px;
+      font-weight: bold;
+      color: #1b5f3a;
+      margin-top: 5px;
+    }
+
+    /* Actividades añadidas */
+    .actividades-box {
+      grid-column: 1 / -1;
+      background: #f7faf8;
+      border: 1px solid #e3efe8;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+    .actividad-pill {
+      display: inline-block;
+      background: #e4f2eb;
+      color: #1b5f3a;
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-weight: bold;
+      margin: 3px 5px 3px 0;
+      font-size: 12px;
+    }
+
+    /* Notificación de Check-in */
+    .checkin-banner {
+      grid-column: 1 / -1;
+      background: #e8f4fd;
+      border: 1px solid #b8daff;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 13px;
+      color: #004085;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Footer con acciones */
+    .tarjeta-footer {
+      padding: 14px 22px;
+      background: #ffffff;
+      border-top: 1px dashed #e3eee8;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-accion {
+      padding: 9px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-pagar {
+      background-color: #ffc107;
+      color: #212529;
+      border: 1px solid #e0a800;
+    }
+    .btn-pagar:hover {
+      background-color: #e0a800;
+      transform: translateY(-1px);
+    }
+    .btn-cancelar {
+      background-color: #fff;
+      color: #dc3545;
+      border: 1px solid #f5c6cb;
+    }
+    .btn-cancelar:hover {
+      background-color: #f8d7da;
+    }
+    .btn-wa-res {
+      background-color: #25D366;
+      color: white;
+    }
+    .btn-wa-res:hover {
+      background-color: #1da851;
+      transform: translateY(-1px);
+    }
+    .btn-recibo {
+      background-color: #f1f3f5;
+      color: #333;
+      border: 1px solid #dee2e6;
+    }
+    .btn-recibo:hover {
+      background-color: #e9ecef;
+    }
+
+    /* Estado vacío */
+    .sin-reservas {
+      background: white;
+      padding: 55px 30px;
+      text-align: center;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      margin-top: 20px;
+    }
+    .sin-reservas-icono {
+      font-size: 55px;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo-titulo">
+    <img src="{% static 'bocatoma/img/logoo.png' %}" alt="Logo">
+    <h1 id="titulo-menu">Parque Ecoturistico</h1>
+  </div>
+  <ul>
+    <li><a href="{% url 'bocatoma:inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'bocatoma:actividades' %}">Actividades</a></li>
+    <li><a href="{% url 'bocatoma:cabanas' %}">Hospedaje</a></li>
+    <li><a href="{% url 'bocatoma:resenas' %}">Reseñas</a></li>
+    <li><a href="{% url 'bocatoma:mis_reservaciones' %}">Mis Reservaciones</a></li>
+    <li><a href="{% url 'bocatoma:logout' %}">Salir ({% if user.is_authenticated %}{{ user.username }}{% endif %})</a></li>
+  </ul>
+</nav>
+
+{% if messages %}
+<div style="max-width: 1050px; margin: 15px auto; padding: 0 20px;">
+  {% for message in messages %}
+  <div style="padding: 12px 18px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; {% if message.tags == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% elif message.tags == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="seccion-mis-res">
+
+  <!-- Banner del Visitante -->
+  <div class="perfil-banner">
+    <div class="perfil-info">
+      <h1>🌿 Bienvenido(a){% if user.is_authenticated %}, {{ user.get_full_name|default:user.username }}{% endif %}</h1>
+      {% if user.email %}
+        <p>📧 Correo: <strong>{{ user.email }}</strong></p>
+      {% endif %}
+      {% if user.perfil and user.perfil.telefono %}
+        <p>📞 Teléfono / WhatsApp: <strong>{{ user.perfil.telefono }}</strong></p>
+      {% endif %}
+      {% if user.perfil and user.perfil.origen %}
+        <p>📍 Procedencia: <strong>{{ user.perfil.origen }}</strong></p>
+      {% endif %}
+    </div>
+
+    <div class="perfil-acciones">
+      <a href="{% url 'bocatoma:reservar' %}" class="btn-top btn-top-reservar">
+        <span>🏕️</span> Reservar Cabaña
+      </a>
+      <a href="{% url 'bocatoma:resenas' %}" class="btn-top btn-top-resena">
+        <span>★</span> Dejar Reseña
+      </a>
+    </div>
+  </div>
+
+  <div class="metricas-grid">
+    <div class="metrica-card total">
+      <div class="metrica-icono">📋</div>
+      <div class="metrica-datos">
+        <div class="valor">{{ total_reservas|default:0 }}</div>
+        <div class="etiqueta">Total de Reservaciones</div>
+      </div>
+    </div>
+
+    <div class="metrica-card confirmada">
+      <div class="metrica-icono">✅</div>
+      <div class="metrica-datos">
+        <div class="valor">{{ confirmadas|default:0 }}</div>
+        <div class="etiqueta">Confirmadas</div>
+      </div>
+    </div>
+
+    <div class="metrica-card pendiente">
+      <div class="metrica-icono">⏳</div>
+      <div class="metrica-datos">
+        <div class="valor">{{ pendientes|default:0 }}</div>
+        <div class="etiqueta">Pendientes de Pago</div>
+      </div>
+    </div>
+
+    <div class="metrica-card recibida">
+      <div class="metrica-icono">🔑</div>
+      <div class="metrica-datos">
+        <div class="valor">{{ recibidas|default:0 }}</div>
+        <div class="etiqueta">Check-in Realizado</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="titulo-seccion-res">Historial de Estancias en La Bocatoma</h2>
+
+  {% for r in reservaciones %}
+  <div class="tarjeta-reserva">
+
+    <!-- Cabecera de la Tarjeta -->
+    <div class="tarjeta-header">
+      <div class="folio-titulo">
+        <span>🏕️ Folio: <strong>{{ r.folio }}</strong></span>
+        <span class="fecha-creacion">· Creada el {{ r.fecha_creacion|date:"d/m/Y H:i" }}</span>
+      </div>
+
+      <div>
+        {% if r.estado == 'confirmada' %}
+          <span class="badge-estado badge-confirmada">✓ Confirmada</span>
+        {% elif r.estado == 'pendiente' %}
+          <span class="badge-estado badge-pendiente">⏳ Pendiente de Pago</span>
+        {% elif r.estado == 'recibida' %}
+          <span class="badge-estado badge-recibida">🔑 Cabaña Lista (Check-in Hecho)</span>
+        {% elif r.estado == 'cancelada' %}
+          <span class="badge-estado badge-cancelada">✕ Cancelada</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Cuerpo de la Tarjeta -->
+    <div class="tarjeta-cuerpo">
+      <!-- Cabaña -->
+      <div class="bloque-info">
+        <h3>{{ r.cabana.nombre }}</h3>
+        <p>👥 <strong>Capacidad:</strong> Hasta {{ r.cabana.capacidad }} personas</p>
+        <p>🏕️ <strong>Personas en tu grupo:</strong> {{ r.personas }} visitante{{ r.personas|pluralize }}</p>
+        <p>📞 <strong>Atención cabaña:</strong> {{ r.cabana.telefono_contacto|default:"834 274 4432" }}</p>
+      </div>
+
+      <!-- Fechas -->
+      <div class="bloque-info">
+        <p>📅 <strong>Entrada (Check-in):</strong><br>{{ r.fecha_entrada|date:"l, j \d\e F \d\e Y" }}</p>
+        <p style="margin-top: 8px;">📅 <strong>Salida (Check-out):</strong><br>{{ r.fecha_salida|date:"l, j \d\e F \d\e Y" }}</p>
+        <p style="margin-top: 8px;">🌙 <strong>Estancia:</strong> {{ r.noches }} noche{{ r.noches|pluralize }}</p>
+      </div>
+
+      <!-- Costos y Notificación -->
+      <div class="bloque-info">
+        <p>📩 <strong>Medio de confirmación:</strong><br>{{ r.get_medio_confirmacion_display }}</p>
+        <p style="margin-top: 8px;">💵 <strong>Total de la reservación:</strong></p>
+        <div class="precio-destacado">${{ r.total }} MXN</div>
+      </div>
+
+      <!-- Actividades añadidas -->
+      {% if r.actividades.all %}
+      <div class="actividades-box">
+        <strong style="color: #1b5f3a;">🚣‍♂️ Actividades ecoturísticas añadidas:</strong><br>
+        {% for a in r.actividades.all %}
+          <span class="actividad-pill">🍃 {{ a.nombre }} ({{ a.precio_texto }})</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Check-in registrado -->
+      {% if r.estado == 'recibida' and r.fecha_recepcion %}
+      <div class="checkin-banner">
+        <span>🔑</span>
+        <span><strong>¡Bienvenido(a) al Parque!</strong> Check-in recibido en recepción el {{ r.fecha_recepcion|date:"d/m/Y \a \l\a\s H:i" }} hrs. Tu cabaña se encuentra lista y limpia.</span>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Pie de la Tarjeta con Acciones -->
+    <div class="tarjeta-footer">
+      {% if r.estado == 'pendiente' %}
+        <a href="{% url 'bocatoma:pagar_reservacion' folio=r.folio %}" class="btn-accion btn-pagar">
+          💳 Proceder al Pago Simulado
+        </a>
+        <a href="{% url 'bocatoma:cancelar_reservacion' folio=r.folio %}" class="btn-accion btn-cancelar">
+          ✕ Cancelar Reservación
+        </a>
+      {% endif %}
+
+      {% if r.estado == 'confirmada' or r.estado == 'recibida' %}
+        <a href="{{ r.url_whatsapp }}" target="_blank" class="btn-accion btn-wa-res">
+          <img src="https://cdn-icons-png.flaticon.com/24/733/733585.png" style="width:16px;">
+          Enviar Datos por WhatsApp
+        </a>
+        <a href="{% url 'bocatoma:confirmacion_reservacion' folio=r.folio %}" class="btn-accion btn-recibo">
+          📄 Ver Comprobante y Folio
+        </a>
+      {% endif %}
+    </div>
+
+  </div>
+  {% empty %}
+  <div class="sin-reservas">
+    <div class="sin-reservas-icono">🏕️✨</div>
+    <h3 style="color: #1b5f3a; font-size: 22px; margin-bottom: 8px;">Aún no tienes reservaciones registradas</h3>
+    <p style="color: #666; max-width: 500px; margin: 0 auto 24px auto; font-size: 15px;">
+      Planea una escapada a La Bocatoma en Gómez Farías, Tamaulipas. Disfruta de nuestras cabañas frente al río, kayak, senderismo y naturaleza pura.
+    </p>
+    <a href="{% url 'bocatoma:reservar' %}" class="btn-top btn-top-reservar" style="background-color: #1b5f3a; color: white; display: inline-flex; padding: 13px 26px;">
+      Reservar Cabaña Ahora 🌿
+    </a>
+  </div>
+  {% endfor %}
+
+</div>
+
+<footer>
+  <p>© 2026 Parque Ecoturistico La Bocatoma</p>
+</footer>
+
+</body>
+</html>

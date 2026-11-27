@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cancelar Reservación - Parque Ecoturístico La Bocatoma</title>
+  <link rel="stylesheet" href="{% static 'bocatoma/css/Resenas.css' %}">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+        url("{% static 'bocatoma/img/bocatoma.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contenedor-principal {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .tarjeta-cancelar {
+      background: rgba(255, 255, 255, 0.98);
+      max-width: 580px;
+      width: 100%;
+      padding: 38px 42px;
+      border-radius: 18px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+      text-align: center;
+    }
+
+    .icono-alerta {
+      font-size: 52px;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .tarjeta-cancelar h1 {
+      color: #902127;
+      font-size: 25px;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .subtitulo-aviso {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    .caja-detalles-reserva {
+      background: #fbfbfb;
+      border: 1px solid #e2e8e4;
+      border-left: 4px solid #dc3545;
+      border-radius: 10px;
+      padding: 18px 22px;
+      text-align: left;
+      margin-bottom: 24px;
+    }
+
+    .folio-tag {
+      display: inline-block;
+      background: #ffebe6;
+      color: #a82329;
+      font-size: 13px;
+      font-weight: bold;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .fila-detalle {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      border-bottom: 1px dashed #e9ecef;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .fila-detalle:last-child {
+      border-bottom: none;
+    }
+
+    .fila-detalle strong {
+      color: #222;
+    }
+
+    .aviso-importante {
+      background: #fff8e6;
+      border: 1px solid #ffe3a3;
+      color: #856404;
+      font-size: 13px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    .acciones-botones {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-confirmar-cancelar {
+      background-color: #dc3545;
+      color: white;
+      font-weight: bold;
+      border: none;
+      padding: 14px 26px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-confirmar-cancelar:hover {
+      background-color: #bd2130;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.35);
+    }
+
+    .btn-conservar {
+      background-color: #1b5f3a;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 14px 26px;
+      border-radius: 9px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-conservar:hover {
+      background-color: #14492c;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(27, 95, 58, 0.35);
+    }
+
+    footer {
+      margin-top: auto;
+      background-color: #1b5f3a;
+      color: white;
+      text-align: center;
+      padding: 18px 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo-titulo">
+    <img src="{% static 'bocatoma/img/logoo.png' %}" alt="Logo">
+    <h1 id="titulo-menu">Parque Ecoturistico</h1>
+  </div>
+  <ul>
+    <li><a href="{% url 'bocatoma:inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'bocatoma:actividades' %}">Actividades</a></li>
+    <li><a href="{% url 'bocatoma:cabanas' %}">Hospedaje</a></li>
+    <li><a href="{% url 'bocatoma:resenas' %}">Reseñas</a></li>
+    <li><a href="{% url 'bocatoma:contacto' %}">Contacto</a></li>
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'bocatoma:mis_reservaciones' %}">Mis Reservaciones</a></li>
+      <li><a href="{% url 'bocatoma:logout' %}">Salir ({{ user.username }})</a></li>
+    {% else %}
+      <li><a href="{% url 'bocatoma:login' %}">Iniciar Sesión</a></li>
+      <li><a href="{% url 'bocatoma:registro' %}">Registro</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% if messages %}
+<div style="max-width: 900px; margin: 15px auto; padding: 0 20px;">
+  {% for message in messages %}
+  <div style="padding: 12px 18px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; {% if message.tags == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% elif message.tags == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<main class="contenedor-principal">
+  <div class="tarjeta-cancelar">
+    <div class="icono-alerta">⚠️</div>
+    <h1>¿Deseas cancelar esta reservación?</h1>
+    <p class="subtitulo-aviso">
+      Esta acción cancelará tu lugar reservado en el Parque Ecoturístico La Bocatoma.
+    </p>
+
+    <div class="caja-detalles-reserva">
+      <div class="folio-tag">Folio: {{ reservacion.folio }}</div>
+
+      <div class="fila-detalle">
+        <span>Hospedaje:</span>
+        <strong>{{ reservacion.cabana.nombre }}</strong>
+      </div>
+      <div class="fila-detalle">
+        <span>Fecha de llegada:</span>
+        <strong>{{ reservacion.fecha_entrada|date:"d/m/Y" }}</strong>
+      </div>
+      <div class="fila-detalle">
+        <span>Fecha de salida:</span>
+        <strong>{{ reservacion.fecha_salida|date:"d/m/Y" }} ({{ reservacion.noches }} noche{{ reservacion.noches|pluralize }})</strong>
+      </div>
+      <div class="fila-detalle">
+        <span>Personas:</span>
+        <strong>{{ reservacion.personas }}</strong>
+      </div>
+      <div class="fila-detalle">
+        <span>Total:</span>
+        <strong style="color: #1b5f3a;">${{ reservacion.total }} MXN</strong>
+      </div>
+      <div class="fila-detalle">
+        <span>Estado actual:</span>
+        <span style="background: #fff3cd; color: #856404; font-weight: bold; padding: 2px 8px; border-radius: 4px; font-size: 13px;">
+          {{ reservacion.get_estado_display }}
+        </span>
+      </div>
+    </div>
+
+    <div class="aviso-importante">
+      ℹ️ <strong>Nota:</strong> Al confirmar la cancelación, las fechas quedarán disponibles para otros visitantes y te enviaremos una notificación de confirmación de cancelación a tu correo registrado.
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="acciones-botones">
+        <button type="submit" class="btn-confirmar-cancelar">
+          ✕ Sí, Cancelar Reservación
+        </button>
+        <a href="{% url 'bocatoma:mis_reservaciones' %}" class="btn-conservar">
+          ✓ No, Mantener Reservación
+        </a>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer>
+  <p>© 2026 Parque Ecoturistico La Bocatoma</p>
+</footer>
+
+</body>
+</html>

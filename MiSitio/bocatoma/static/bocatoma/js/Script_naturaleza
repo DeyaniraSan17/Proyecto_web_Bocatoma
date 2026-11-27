@@ -1,0 +1,35 @@
+const overlay   = document.getElementById("modalOverlay");
+const modalImg  = document.getElementById("modalImg");
+const modalNom  = document.getElementById("modalNombre");
+const cerrar    = document.getElementById("modalCerrar");
+
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("mousemove", (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(600px) rotateX(${(-y * 12).toFixed(2)}deg) rotateY(${(x * 12).toFixed(2)}deg) scale(1.05)`;
+  });
+
+  card.addEventListener("mouseleave", () => {
+    card.style.transform = "perspective(600px) rotateX(0deg) rotateY(0deg) scale(1)";
+  });
+
+  card.addEventListener("click", () => {
+    const src    = card.getAttribute("data-img");
+    const nombre = card.getAttribute("data-nombre");
+    modalImg.src         = src;
+    modalNom.textContent = nombre;
+    overlay.classList.add("activo");
+  });
+});
+
+cerrar.addEventListener("click", () => overlay.classList.remove("activo"));
+
+overlay.addEventListener("click", (e) => {
+  if (e.target === overlay) overlay.classList.remove("activo");
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") overlay.classList.remove("activo");
+});

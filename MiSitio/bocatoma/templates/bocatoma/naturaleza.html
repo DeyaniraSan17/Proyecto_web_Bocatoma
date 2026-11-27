@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Flora y Fauna</title>
+  <link rel="stylesheet" href="{% static 'bocatoma/css/Naturaleza.css' %}">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo-titulo">
+    <img src="{% static 'bocatoma/img/logoo.png' %}" alt="Logo">
+    <h1 id="titulo-menu">Parque Ecoturistico</h1>
+  </div>
+  <ul>
+    <li><a href="{% url 'bocatoma:inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'bocatoma:actividades' %}">Actividades</a></li>
+    <li><a href="{% url 'bocatoma:restaurantes' %}">Restaurantes</a></li>
+    <li><a href="{% url 'bocatoma:cabanas' %}">Hospedaje</a></li>
+    <li><a href="{% url 'bocatoma:mi_entorno_limpio' %}">Entorno Limpio</a></li>
+    <li><a href="{% url 'bocatoma:resenas' %}">Reseñas</a></li>
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'bocatoma:mis_reservaciones' %}">Mis Reservaciones</a></li>
+      <li><a href="{% url 'bocatoma:logout' %}">Salir ({{ user.username }})</a></li>
+    {% else %}
+      <li><a href="{% url 'bocatoma:login' %}">Iniciar Sesión</a></li>
+      <li><a href="{% url 'bocatoma:registro' %}">Registro</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% if messages %}
+<div style="max-width: 900px; margin: 15px auto; padding: 0 20px;">
+  {% for message in messages %}
+  <div style="padding: 12px 18px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; {% if message.tags == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% elif message.tags == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<section class="intro">
+  <h2>🌿 Flora y Fauna 🐾</h2>
+  <p>Descubre la riqueza natural que habita en La Bocatoma. 
+  Desde árboles centenarios hasta especies únicas de animales que conviven 
+  en este paraíso natural de Tamaulipas.</p>
+</section>
+
+<section class="seccion-flora">
+  <h2>🌿 Flora</h2>
+  <div class="grid-cards">
+    <div class="card" data-img="../imagenes/flora.jpg" data-nombre="Algas Río Frío">
+      <img src="{% static 'bocatoma/img/flora.jpg' %}" alt="Algas Río Frío">
+      <p>Algas Río Frío</p>
+    </div>
+    <div class="card" data-img="../imagenes/Arbol_mango.jpg" data-nombre="Árbol de Mango">
+      <img src="{% static 'bocatoma/img/Arbol_mango.jpg' %}" alt="Árbol de Mango">
+      <p>Árbol de Mango</p>
+    </div>
+    <div class="card" data-img="../imagenes/sabinos.jpg" data-nombre='Árbol "El Sabino"'>
+      <img src="{% static 'bocatoma/img/sabinos.jpg' %}" alt="Árbol El Sabino">
+      <p>Árbol "El Sabino"</p>
+    </div>
+    <div class="card" data-img="../imagenes/CHAKA.jpg" data-nombre="Árbol de Chaká">
+      <img src="{% static 'bocatoma/img/CHAKA.jpg' %}" alt="Árbol de Chaká">
+      <p>Árbol de Chaká</p>
+    </div>
+  </div>
+</section>
+
+<section class="seccion-fauna">
+  <h2>🐾 Fauna</h2>
+  <div class="grid-cards">
+    <div class="card" data-img="../imagenes/TORTUGASS.jpg" data-nombre="Tortugas">
+      <img src="{% static 'bocatoma/img/TORTUGASS.jpg' %}" alt="Tortugas">
+      <p>Tortugas</p>
+    </div>
+    <div class="card" data-img="../imagenes/morfo.jpeg" data-nombre="Mariposa Morfo Azul">
+      <img src="{% static 'bocatoma/img/morfo.jpeg' %}" alt="Mariposa Morfo Azul">
+      <p>Mariposa Morfo Azul</p>
+    </div>
+    <div class="card" data-img="../imagenes/caballito.jpg" data-nombre="Caballito">
+      <img src="{% static 'bocatoma/img/caballito.jpg' %}" alt="Caballito">
+      <p>Caballito</p>
+    </div>
+    <div class="card" data-img="../imagenes/PECES.jpg" data-nombre="Peces">
+      <img src="{% static 'bocatoma/img/PECES.jpg' %}" alt="Peces">
+      <p>Peces</p>
+    </div>
+    <div class="card" data-img="../imagenes/patos .jpg" data-nombre="Patos">
+      <img src="{% static 'bocatoma/img/patos.jpg' %}" alt="Patos">
+      <p>Patos</p>
+    </div>
+    <div class="card" data-img="../imagenes/AVES.jpg" data-nombre="Aves">
+      <img src="{% static 'bocatoma/img/AVES.jpg' %}" alt="Aves">
+      <p>Aves</p>
+    </div>
+  </div>
+</section>
+
+<div id="modalOverlay">
+  <span id="modalCerrar">✕</span>
+  <img id="modalImg" src="" alt="">
+  <p id="modalNombre"></p>
+</div>
+
+<footer>
+  <p>© 2026 Parque Ecoturistico La Bocatoma</p>
+</footer>
+
+<script src="{% static 'bocatoma/js/Script_naturaleza' %}"></script>
+</body>
+</html>

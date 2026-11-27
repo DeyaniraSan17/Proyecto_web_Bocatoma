@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Entorno Limpio</title>
+  <link rel="stylesheet" href="{% static 'bocatoma/css/mi_entorno_limpio.css' %}">
+</head>
+<body>
+
+<nav class="navbar">
+<div class="logo-titulo">
+    <img src="{% static 'bocatoma/img/logoo.png' %}" alt="Logo">
+    <h1 id="titulo-menu">Parque Ecoturistico</h1>
+  </div>
+    <ul>
+    <li><a href="{% url 'bocatoma:inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'bocatoma:actividades' %}">Actividades</a></li>
+    <li><a href="{% url 'bocatoma:restaurantes' %}">Restaurantes</a></li>
+    <li><a href="{% url 'bocatoma:cabanas' %}">Hospedaje</a></li>
+    <li><a href="{% url 'bocatoma:naturaleza' %}">Flora y Fauna</a></li>
+    <li><a href="{% url 'bocatoma:resenas' %}">Reseñas</a></li>
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'bocatoma:mis_reservaciones' %}">Mis Reservaciones</a></li>
+      <li><a href="{% url 'bocatoma:logout' %}">Salir ({{ user.username }})</a></li>
+    {% else %}
+      <li><a href="{% url 'bocatoma:login' %}">Iniciar Sesión</a></li>
+      <li><a href="{% url 'bocatoma:registro' %}">Registro</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% if messages %}
+<div style="max-width: 900px; margin: 15px auto; padding: 0 20px;">
+  {% for message in messages %}
+  <div style="padding: 12px 18px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; {% if message.tags == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% elif message.tags == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<section class="intro">
+  <H4>
+    Recuerda que tenemos que convivir con la naturaleza, así que la mejor forma de respetar lo que nos ofrece es limpiando el lugar que ocupamos en La Bocatoma, para garantizar la higiene y seguridad del lugar y de ustedes los visitantes.
+  </H4>
+</section>
+
+<section class="contenedor-cards">
+
+  <div class="card">
+    <img src="{% static 'bocatoma/img/no_basura.jpg' %}">
+    <h3>No tirar basura 🚯</h3>
+  </div>
+
+  <div class="card">
+    <img src="{% static 'bocatoma/img/Bocatoma_img2.jpg' %}">
+    <h3>La basura en su lugar 🚮</h3>
+  </div>
+
+</section>
+
+<section class="frase">
+  <H4>
+    «La verdadera elegancia está en cuidar y preservar nuestro entorno natural, ¡di no a la contaminación del parque ecoturistico "La Bocatoma"!»
+  </H4>
+</section>
+
+<footer>
+  <p>© 2026 Parque Ecoturistico La Bocatoma</p>
+</footer>
+
+</body>
+</html>

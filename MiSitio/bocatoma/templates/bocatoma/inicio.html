@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Parque Ecoturistico La Bocatoma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="{% static 'bocatoma/css/Estilo.css' %}">
+</head>
+<body>
+
+  
+
+  <nav  class="navbar">
+  <div class="logo-titulo">
+    <img src="{% static 'bocatoma/img/logoo.png' %}" alt="Logo">
+    <h1 id="titulo-menu">Parque Ecoturistico</h1>
+  </div>
+    <ul>
+      <li><a href="{% url 'bocatoma:inicio' %}">Inicio</a></li>
+      <li><a href="{% url 'bocatoma:resenas' %}">Reseñas</a></li>
+      <li><a href="{% url 'bocatoma:contacto' %}">Contacto</a></li>
+      {% if user.is_authenticated %}
+        <li><a href="{% url 'bocatoma:mis_reservaciones' %}">Mis Reservaciones</a></li>
+        <li><a href="{% url 'bocatoma:logout' %}">Salir ({{ user.username }})</a></li>
+      {% else %}
+        <li><a href="{% url 'bocatoma:login' %}">Iniciar Sesión</a></li>
+        <li><a href="{% url 'bocatoma:registro' %}">Registro</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+{% if messages %}
+<div style="max-width: 900px; margin: 15px auto; padding: 0 20px;">
+  {% for message in messages %}
+  <div style="padding: 12px 18px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; {% if message.tags == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% elif message.tags == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+  <section id="inicio" class="Btoma">
+
+   <div class="carrusel-principal">
+    <div class="slides">
+      <img src="{% static 'bocatoma/img/bocatoma..jpg' %}">
+      <img src="{% static 'bocatoma/img/cascada.jpg' %}">
+      <img src="{% static 'bocatoma/img/tortugas_bocatoma.jpg' %}">
+      <img src="{% static 'bocatoma/img/bocatoma..jpg' %}">
+    </div>
+  </div>
+
+    
+  </section>
+
+  <section class="servicios">
+    <a href="{% url 'bocatoma:actividades' %}" class="menu-link">
+    <div class="Menu">
+      <img src="{% static 'bocatoma/iconos/sendero.png' %}">
+      <h3>Actividades</h3>
+      <p>Mucha Diversion </p>
+    </div>
+    </a>
+
+    <a href="{% url 'bocatoma:restaurantes' %}" class="menu-link">
+    <div class="Menu">
+      <img src="{% static 'bocatoma/iconos/restaurante.png' %}">
+      <h3>Restaurantes</h3>
+      <p>Deliciosos platillos</p>
+    </div></a>
+
+    <a href="{% url 'bocatoma:cabanas' %}" class="menu-link">
+    <div class="Menu">
+      <img src="{% static 'bocatoma/iconos/cabana.png' %}">
+      <h3>Cabañas</h3>
+      <p>Tu Refugio Ideal</p>
+    </div></a>
+
+    <a href="{% url 'bocatoma:naturaleza' %}" class="menu-link">
+    <div class="Menu">
+      <img src="{% static 'bocatoma/iconos/florayfauna.png' %}">
+      <h3>Flora y Fauna</h3>
+      <p>Entorno Natural</p>
+    </div></a>
+
+    <a href="{% url 'bocatoma:mi_entorno_limpio' %}" class="menu-link">
+    <div class="Menu">
+      <img src="{% static 'bocatoma/iconos/desperdicio.png' %}">
+      <h3>Entorno Limpio</h3>
+      <p>Cuidemos la Naturaleza</p>
+    </div></a>
+  </section>
+
+  <section class="info">
+    <div class="texto">
+      <h2>Sobre Nosotros</h2>
+      <p class="estilo-p">
+        La Bocatoma es un lugar perfecto e inigualabre para
+        los amantes<br> de la naturaleza y la adrenalina. Rodeada
+        de paisajes impresionates,<br> aire puro y el sonido constante
+        del agua, ya sea que busques aventura,<br> descanso o solo reconectar
+        con la naturaleza. Ven y descubre por qué <br>somos uno de los 
+        destinos ecoturísticos más queridos de Tamaulipas.
+        
+      </p>
+     <a href="{% url 'bocatoma:info_bocatoma' %}">
+      <button > Ver mas </button>
+     </a>
+
+    </div>
+<div class="video-contenedor">
+    <video controls muted>
+      <source src="{% static 'bocatoma/videos/vid_bocatoma.mp4' %}"  type="video/mp4">
+      Tu navegador no soporta video.
+    </video>
+  </div>  </section>
+
+  <section class="info">
+    <div class="texto">
+      <h2>¿Dónde estamos?</h2>
+      <p>
+        La Bocatoma es un paraíso natural ubicado a 13 kilómetros<br>
+        de la cabecera municipal de Gomez Farías. Su acceso es <br>
+        sencillo y se encuentra rodeado de un entorno montañoso y <br>
+        vegetación abundante, lo que lo convierte en un destino ideal <br>
+        para quienes buscan contacto directo con la naturaleza sin <br>
+        alejarse demasiado de la ciudad.<br>
+      </p>
+      
+    </div>
+
+    <div class="media">
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2597.1827220676723!2d-99.14976985202293!3d22.98809277826563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8678d3088c40135f%3A0x328f292ca2b8fe77!2sParque%20Ecoturistico%20%22La%20Bocatoma%22!5e0!3m2!1ses-419!2smx!4v1771402350109!5m2!1ses-419!2smx" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    
+    </iframe>
+  </div>
+
+  </section>
+
+  <footer>
+    <p>© 2026 Parque Ecoturistico La Bocatoma</p>
+    <p>Gomez Farias, Tamps | Visitanos</p>
+  </footer>
+  <script src="{% static 'bocatoma/js/Script.js' %}"></script>
+
+</body>
+</html>

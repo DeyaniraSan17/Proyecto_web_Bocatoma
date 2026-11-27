@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Reseñas - Parque Ecoturistico</title>
+  <link rel="stylesheet" href="{% static 'bocatoma/css/Resenas.css' %}">
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="logo-titulo">
+      <img src="{% static 'bocatoma/img/logoo.png' %}" alt="Logo">
+      <h1 id="titulo-menu">Parque Ecoturistico</h1>
+    </div>
+    <ul>
+      <li><a href="{% url 'bocatoma:inicio' %}">Inicio</a></li>
+      <li><a href="{% url 'bocatoma:actividades' %}">Actividades</a></li>
+      <li><a href="{% url 'bocatoma:restaurantes' %}">Restaurantes</a></li>
+      <li><a href="{% url 'bocatoma:cabanas' %}">Hospedaje</a></li>
+      <li><a href="{% url 'bocatoma:naturaleza' %}">Flora y Fauna</a></li>
+      <li><a href="{% url 'bocatoma:mi_entorno_limpio' %}">Entorno Limpio</a></li>
+      <li><a href="{% url 'bocatoma:info_bocatoma' %}">Sobre Nosotros</a></li>
+      <li><a href="{% url 'bocatoma:contacto' %}">Contacto</a></li>
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'bocatoma:mis_reservaciones' %}">Mis Reservaciones</a></li>
+      <li><a href="{% url 'bocatoma:logout' %}">Salir ({{ user.username }})</a></li>
+      {% else %}
+      <li><a href="{% url 'bocatoma:login' %}">Iniciar Sesión</a></li>
+      <li><a href="{% url 'bocatoma:registro' %}">Registro</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  {% if messages %}
+  <div style="max-width: 900px; margin: 15px auto; padding: 0 20px;">
+    {% for message in messages %}
+    <div
+      style="padding: 12px 18px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; {% if message.tags == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% elif message.tags == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <section class="contenedor-form">
+    {% if user.is_authenticated %}
+    <form class="formulario" autocomplete="off" id="formResena" method="post">
+      {% csrf_token %}
+      <h2>Déjanos tu reseña 🌿</h2>
+      <p style="text-align: center; color: #555; margin-bottom: 12px; font-size: 14px;">
+        Publicando como <strong>{{ user.get_full_name|default:user.username }}</strong>
+      </p>
+
+      {% if form.errors %}
+      <div
+        style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 8px; margin-bottom: 12px; font-size: 13px;">
+        {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+        <p>• {{ error }}</p>
+        {% endfor %}
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <label>Tu nombre</label>
+      <input type="text" name="nombre" id="nombre" value="{{ form.nombre.value|default:'' }}" required>
+
+      <label>¿De dónde nos visitas?</label>
+      <input type="text" name="origen" id="origen" value="{{ form.origen.value|default:'' }}" required>
+
+      <label>¿Cómo calificas el lugar?</label>
+      <div class="estrellas">
+        <input type="radio" name="calificacion" value="5" id="star5"><label for="star5">★</label>
+        <input type="radio" name="calificacion" value="4" id="star4"><label for="star4">★</label>
+        <input type="radio" name="calificacion" value="3" id="star3"><label for="star3">★</label>
+        <input type="radio" name="calificacion" value="2" id="star2"><label for="star2">★</label>
+        <input type="radio" name="calificacion" value="1" id="star1"><label for="star1">★</label>
+      </div>
+
+      <label>¿Qué tan probable es que vuelvas?</label>
+      <div class="escala">
+        <input type="radio" name="probabilidad" id="p1" value="1"><label for="p1">1</label>
+        <input type="radio" name="probabilidad" id="p2" value="2"><label for="p2">2</label>
+        <input type="radio" name="probabilidad" id="p3" value="3"><label for="p3">3</label>
+        <input type="radio" name="probabilidad" id="p4" value="4"><label for="p4">4</label>
+        <input type="radio" name="probabilidad" id="p5" value="5"><label for="p5">5</label>
+        <input type="radio" name="probabilidad" id="p6" value="6"><label for="p6">6</label>
+        <input type="radio" name="probabilidad" id="p7" value="7"><label for="p7">7</label>
+        <input type="radio" name="probabilidad" id="p8" value="8"><label for="p8">8</label>
+        <input type="radio" name="probabilidad" id="p9" value="9"><label for="p9">9</label>
+        <input type="radio" name="probabilidad" id="p10" value="10"><label for="p10">10</label>
+      </div>
+
+      <label>Cuéntanos tu experiencia</label>
+      <textarea name="mensaje" id="mensaje" rows="5" required>{{ form.mensaje.value|default:'' }}</textarea>
+
+      <button type="submit">Enviar Reseña</button>
+    </form>
+    {% else %}
+    <div class="formulario" style="text-align: center; padding: 40px 30px; max-width: 450px;">
+      <div style="font-size: 52px; margin-bottom: 12px;">🌿📝</div>
+      <h2 style="margin-bottom: 12px; color: #1b5f3a;">¿Deseas dejar tu reseña?</h2>
+      <p style="color: #555; font-size: 15px; line-height: 1.6; margin-bottom: 25px;">
+        Para calificar tu experiencia en La Bocatoma y compartir tu opinión con la comunidad de visitantes, por favor inicia sesión con tu cuenta.
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+        <a href="{% url 'bocatoma:login' %}?next={% url 'bocatoma:resenas' %}" 
+           style="background-color: #1b5f3a; color: white; padding: 13px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; display: block; transition: background 0.3s; box-shadow: 0 4px 10px rgba(27,95,58,0.25);">
+          🔑 Iniciar Sesión para Calificar
+        </a>
+        <a href="{% url 'bocatoma:registro' %}" 
+           style="background-color: #f7faf8; color: #1b5f3a; border: 1px solid #1b5f3a; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 14px; display: block;">
+          ¿No tienes cuenta? Regístrate gratis
+        </a>
+      </div>
+    </div>
+    {% endif %}
+  </section>
+
+  <section class="seccion-resenas">
+    <h2 class="titulo-resenas">Lo que dicen nuestros visitantes🍃</h2>
+
+    <div class="resumen">
+      <div class="resumen-item">
+        <p class="resumen-label">Total de reseñas</p>
+        <p class="resumen-valor" id="totalResenas">{{ total }}</p>
+      </div>
+      <div class="resumen-linea"></div>
+      <div class="resumen-item">
+        <p class="resumen-label">Calificación promedio</p>
+        <p class="resumen-valor" id="promedioEstrellas">{{ promedio|floatformat:1 }} <span
+            style="color:#f5a623;">★</span></p>
+      </div>
+    </div>
+
+    <div class="grid-resenas" id="gridResenas">
+      {% for r in resenas %}
+      <div class="tarjeta-resena">
+        <div class="resena-cabecera">
+          <span class="resena-origen">👤 {{ r.nombre }} · 📍 {{ r.origen }}</span>
+          <span class="resena-estrellas">{{ r.estrellas }}</span>
+        </div>
+        <p class="resena-mensaje">{{ r.mensaje }}</p>
+        <div class="resena-pie">
+          <span>Probabilidad de regresar: <strong>{{ r.probabilidad }}/10</strong></span>
+          <span class="resena-fecha">{{ r.fecha|date:"j \d\e F \d\e Y" }}</span>
+        </div>
+      </div>
+      {% empty %}
+      <p>Aún no hay reseñas. ¡Sé el primero en dejar una!</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <script src="{% static 'bocatoma/js/Script_Resena.js' %}?v=2"></script>
+</body>
+
+</html>

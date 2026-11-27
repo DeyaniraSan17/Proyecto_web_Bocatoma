@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar Sesión - Parque Ecoturístico</title>
+  <link rel="stylesheet" href="{% static 'bocatoma/css/Resenas.css' %}">
+  <style>
+    .formulario-login {
+      background: rgba(255, 255, 255, 0.96);
+      padding: 35px;
+      border-radius: 15px;
+      width: 380px;
+      max-width: 95%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      margin: 40px auto;
+    }
+    .formulario-login h2 {
+      text-align: center;
+      margin-bottom: 8px;
+      color: #1b5f3a;
+    }
+    .formulario-login p.subtitulo {
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 25px;
+    }
+    .campo-grupo {
+      margin-bottom: 16px;
+    }
+    .campo-grupo label {
+      display: block;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    .campo-grupo input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+    .btn-submit {
+      width: 100%;
+      background-color: #1b5f3a;
+      color: white;
+      font-weight: bold;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+      transition: background 0.3s;
+    }
+    .btn-submit:hover {
+      background-color: #14492c;
+    }
+    .enlace-registro {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #444;
+    }
+    .enlace-registro a {
+      color: #1b5f3a;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    .alert-errores {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo-titulo">
+    <img src="{% static 'bocatoma/img/logoo.png' %}" alt="Logo">
+    <h1 id="titulo-menu">Parque Ecoturistico</h1>
+  </div>
+  <ul>
+    <li><a href="{% url 'bocatoma:inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'bocatoma:actividades' %}">Actividades</a></li>
+    <li><a href="{% url 'bocatoma:cabanas' %}">Hospedaje</a></li>
+    <li><a href="{% url 'bocatoma:resenas' %}">Reseñas</a></li>
+    <li><a href="{% url 'bocatoma:contacto' %}">Contacto</a></li>
+    <li><a href="{% url 'bocatoma:registro' %}">Registrarse</a></li>
+  </ul>
+</nav>
+
+{% if messages %}
+<div style="max-width: 900px; margin: 15px auto; padding: 0 20px;">
+  {% for message in messages %}
+  <div style="padding: 12px 18px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; {% if message.tags == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% elif message.tags == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<section class="contenedor-form" style="min-height: 80vh; padding: 20px;">
+  <div class="formulario-login">
+    <h2>Iniciar Sesión 🌿</h2>
+    <p class="subtitulo">Ingresa a tu cuenta de visitante de La Bocatoma</p>
+
+    {% if form.errors %}
+    <div class="alert-errores">
+      Usuario o contraseña incorrectos. Por favor verifica tus datos.
+    </div>
+    {% endif %}
+
+    <form method="post" autocomplete="off">
+      {% csrf_token %}
+      {% if next %}
+        <input type="hidden" name="next" value="{{ next }}">
+      {% elif request.GET.next %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+      {% endif %}
+
+      <div class="campo-grupo">
+        <label for="id_username">Usuario:</label>
+        <input type="text" name="username" id="id_username" required autofocus placeholder="Tu usuario">
+      </div>
+
+      <div class="campo-grupo">
+        <label for="id_password">Contraseña:</label>
+        <input type="password" name="password" id="id_password" required placeholder="Tu contraseña">
+      </div>
+
+      <button type="submit" class="btn-submit">Entrar al Parque 🌿</button>
+
+      <div class="enlace-registro">
+        ¿Aún no tienes cuenta? <a href="{% url 'bocatoma:registro' %}">Regístrate aquí gratis</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Parque Ecoturistico La Bocatoma</p>
+</footer>
+
+</body>
+</html>
