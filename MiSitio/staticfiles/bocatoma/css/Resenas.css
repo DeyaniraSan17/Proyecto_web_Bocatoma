@@ -1,0 +1,271 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+   url('../img/bocatoma.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+}
+
+.navbar {
+  background-color: #1b5f3a;
+  color: white;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  align-items: center;
+
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.contenedor-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+.logo-titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-titulo img {
+  width: 55px;
+  height: 58px;
+}
+
+#titulo-menu {
+  margin: 0;
+  font-size: 30px;
+}
+
+.formulario {
+  background: rgba(255, 255, 255, 0.904);
+  padding: 30px;
+  border-radius: 15px;
+  width: 350px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.formulario h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1b5f3a;
+}
+
+.formulario label {
+  margin-top: 10px;
+  display: block;
+  font-weight: bold;
+}
+
+.formulario input,
+.formulario textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.formulario textarea {
+  height: 50px;
+} 
+
+.estrellas {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.estrellas input {
+  display: none;
+}
+
+.estrellas label {
+  font-size: 25px;
+  color: gray;
+  cursor: pointer;
+}
+
+.estrellas input:checked ~ label {
+  color: gold;
+}
+
+.estrellas label:hover,
+.estrellas label:hover ~ label {
+  color: gold;
+}
+
+.escala {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.escala input {
+  display: none;
+}
+
+.escala label {
+  width: 35px;
+  height: 35px;
+  background-color: #eae6df;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.escala label:hover {
+  background-color: #1b5f3a;
+  color: white;
+}
+
+.escala input:checked + label {
+  background-color: #1b5f3a;
+  color: white;
+  transform: scale(1.1);
+}
+
+button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background-color: #1b5f3a;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #14502f;
+}
+
+.seccion-resenas {
+  padding: 50px 40px;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.titulo-resenas {
+  text-align: center;
+  color: white;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.grid-resenas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.tarjeta-resena {
+  background: rgba(255, 255, 255, 0.93);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resena-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resena-origen {
+  font-weight: bold;
+  color: #1b5f3a;
+  font-size: 14px;
+}
+
+.resena-estrellas {
+  color: gold;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.resena-mensaje {
+  color: #333;
+  font-size: 14px;
+  line-height: 1.6;
+  border-left: 3px solid #1b5f3a;
+  padding-left: 10px;
+}
+
+.resena-pie {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #555;
+}
+
+.resena-fecha {
+  font-style: italic;
+}
+
+
+.resumen {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto 30px;
+}
+
+.resumen-item {
+  flex: 1;
+  text-align: center;
+}
+
+.resumen-label {
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+  margin: 0 0 6px;
+}
+
+.resumen-valor {
+  font-size: 26px;
+  font-weight: 500;
+  color: white;
+  margin: 0;
+}
+
+.resumen-linea {
+  width: 0.5px;
+  height: 50px;
+  background: rgba(255,255,255,0.3);
+}

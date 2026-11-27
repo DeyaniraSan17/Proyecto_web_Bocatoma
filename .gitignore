@@ -1,27 +1,4 @@
-# Entornos virtuales
 SitioWeb/
-venv/
-.venv/
-env/
-
-# Archivos de base de datos
-db.sqlite3
-*.sqlite3
-
-# Archivos de caché de Python
 __pycache__/
-*.py[cod]
-*$py.class
-
-# Archivos estáticos recolectados y media
-staticfiles/
-media/
-
-# Variables de entorno y credenciales
+*.pyc
 .env
-.env.*
-
-# IDEs y editores
-.vscode/
-.idea/
-*.swp
